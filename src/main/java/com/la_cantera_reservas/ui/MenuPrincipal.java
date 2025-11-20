@@ -12,7 +12,7 @@ public class MenuPrincipal {
         byte opcion = input.nextByte();
         System.out.print("\n");
 
-        return opcion;
+        return opcion; 
 
     }
 }
