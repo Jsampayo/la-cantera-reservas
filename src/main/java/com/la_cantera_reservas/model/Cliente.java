@@ -9,8 +9,21 @@ public class Cliente {
     private String nombre;
     private String password;
 
-    public Cliente(String nombre, String password) {
+    public Cliente(String nombre, String password, int id) {
+        this.nombre = nombre;
+        this.password = password;
+        this.id = id;
+    }
 
+    public Cliente(int id, String password) {
+        this.nombre = null;
+        this.password = password;
+        this.id = id;
+
+    }
+
+    public String[] toStringArray() {
+        return new String[] { this.nombre, this.password };
     }
 
     public String getNombre() {
@@ -26,9 +39,7 @@ public class Cliente {
     } // *****AGREGAR UN SOUT ANTES DE PEDIR EL ID*****
 
     public String getPassword() {
-        return "*".repeat(password.length());
+        return this.password;
     }
 
 }
-
-
