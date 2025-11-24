@@ -1,7 +1,7 @@
 package com.la_cantera_reservas.model;
 
 public class Reserva {
-    private final int idReserva = 0;
+    private int idReserva = 0;
     private final String hora;
     private final String fecha;
     private final int capacidad;
@@ -10,7 +10,7 @@ public class Reserva {
         this.hora = hora;
         this.fecha = fecha;
         this.capacidad = capacidad;
-        idReserva++;
+        this.idReserva = idReserva++;
 
     }
 
@@ -37,11 +37,14 @@ public class Reserva {
         return this.capacidad;
     }
 
-    // @Override
-    // public String toString() {
-    // return "Hora: " + this.hora + ", Cancha: " + this.fecha + ", Capacidad: " +
-    // this.capacidad;
-    // }
+    @Override
+    public String toString() {
+
+        String texto = String.format("%-30s %-20s %-20s %-20s\n", this.idReserva, this.hora, this.fecha,
+                this.capacidad);
+
+        return texto;
+    }
 
     // public void Reservar(Scanner scanner) {
 
