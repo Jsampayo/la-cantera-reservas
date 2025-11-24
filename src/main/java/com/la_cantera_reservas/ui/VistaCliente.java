@@ -29,7 +29,7 @@ public class VistaCliente {
                     break;
 
                 case 2:
-                    ServicioCliente.registrarCliente();
+                    ServicioCliente.registrarCliente(input);
                     break;
 
                 case 3:
