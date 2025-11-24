@@ -4,7 +4,6 @@ import java.util.Scanner;
 
 import com.la_cantera_reservas.model.Cliente;
 import com.la_cantera_reservas.services.ServicioCliente;
-import static com.la_cantera_reservas.services.ServicioCliente.inicioSesionCliente;
 
 public class VistaCliente {
     private static Cliente clienteActual;
@@ -20,22 +19,26 @@ public class VistaCliente {
     }
 
     public static void validadorDeOpcion() {
-        byte opcion = ServicioCliente.menuPrincipalCliente(input);
+        while (true) {
+            byte opcion = ServicioCliente.menuPrincipalCliente(input);
 
-        switch (opcion) {
-            case 1:
-                setClienteActual(inicioSesionCliente(input));
-                // clienteActual = inicioSesionCliente(input);
-                boolean clienteValido = ServicioCliente.validacionCliente(clienteActual);
-                break;
-            case 2:
-                System.out.println("1");
-                ServicioCliente.verReservasActivas();
-                break;
+            switch (opcion) {
+                case 1:
+                    setClienteActual(ServicioCliente.inicioSesionCliente(input));
+                    ServicioCliente.validacionCliente(clienteActual);
+                    break;
 
-            default:
-                // throw new AssertionError();
-                System.out.println("hola estoy aqui");
+                case 2:
+                    ServicioCliente.registrarCliente();
+                    break;
+
+                case 3:
+                    System.out.println("Volviendo al menú principal...\n");
+                    return;
+
+                default:
+                    System.out.println("Opción no válida.\n");
+            }
         }
-
-    }}
+    }
+}

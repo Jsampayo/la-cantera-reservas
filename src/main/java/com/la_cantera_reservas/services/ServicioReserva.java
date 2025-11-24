@@ -7,7 +7,6 @@ import java.util.List;
 
 import com.la_cantera_reservas.model.Cliente;
 import com.la_cantera_reservas.model.Reserva;
-import static com.la_cantera_reservas.services.ServicioCliente.inicioSesionCliente;
 import static com.la_cantera_reservas.services.ServicioCliente.input;
 import static com.la_cantera_reservas.services.ServicioCliente.validacionCliente;
 import com.la_cantera_reservas.ui.VistaCliente;
@@ -94,9 +93,11 @@ public class ServicioReserva {
 
                 if (dReserva.equalsIgnoreCase("s")) {
                     getReservasActivas().put(idClienteACtual, reserva);
+
+                    // getReservasActivas().put(123, new Reserva(0, null, null, 0));
                     getReservasDisponibles().remove(reserva);
                     System.out.println("\nRESERVA REALIZADA");
-                    inicioSesionCliente(input);
+                    validacionCliente(VistaCliente.getClienteActual());
 
                 } else if (dReserva.equalsIgnoreCase("n")) {
                     System.out.println("\nElegiste volver");

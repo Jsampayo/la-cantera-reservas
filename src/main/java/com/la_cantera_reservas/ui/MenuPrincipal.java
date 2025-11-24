@@ -3,7 +3,7 @@ package com.la_cantera_reservas.ui;
 import java.util.Scanner;
 
 public class MenuPrincipal {
-    Scanner input = new Scanner(System.in);
+    public static Scanner input = new Scanner(System.in);
 
     public static byte menuInicio(Scanner input) {
         System.out.println("\nLa Cantera Reservas");
