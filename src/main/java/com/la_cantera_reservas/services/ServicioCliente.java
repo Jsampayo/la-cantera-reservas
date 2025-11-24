@@ -60,11 +60,17 @@ public class ServicioCliente {
 
     public static byte menuCliente() {
         System.out.println("\nBienvenido al menu cliente");
-        System.out.println("\n1. Realizar una reserva\n2. Ver reservas activas");
+        System.out.println("\n1. Realizar una reserva\n2. Ver reservas activas\n3. Salir");
         System.out.print("\nDigite su opcion: ");
         byte opcion = input.nextByte();
         return opcion;
 
+    }
+
+    public static void verReservasActivas() {
+        // for(Integer idCliente : getReservasActivas()){
+
+        // }
     }
 
     public static void registrarCliente() {
