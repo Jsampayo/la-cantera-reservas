@@ -18,6 +18,9 @@ public class ServicioCliente {
         System.out.println("1. Iniciar Sesión\n2. Registrarse");
         System.out.print("\nDigite su opcion: ");
         byte opcion = input.nextByte();
+        Cliente pacho = new Cliente("pepito", "123", 150);
+        getClientesRegistrados().put(pacho.getId(), new Cliente(pacho.getNombre(), pacho.getPassword(), pacho.getId()));
+
         return opcion;
     }
 
@@ -40,7 +43,10 @@ public class ServicioCliente {
             if (cliente.equals(client.getId())
                     && c.getPassword().equals(client.getPassword())) {
                 clienteEncontrado = true;
-                menuCliente();
+                byte opcionMenuCliente = menuCliente();
+                if (opcionMenuCliente == 1) {
+                    ServicioReserva.filtro();
+                }
 
             }
 

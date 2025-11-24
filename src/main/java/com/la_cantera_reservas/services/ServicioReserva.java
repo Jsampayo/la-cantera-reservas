@@ -36,28 +36,33 @@ public class ServicioReserva {
     }
 
     public static void generarReservasDisponibles() {
+        int indice = 1;
         for (int d = 0; d < diasRestantes.size(); d++) {
             for (int j = 0; j < horarioCancha.length; j++) {
                 for (int k = 0; k < capacidad.length; k++) {
                     getReservasDisponibles()
-                            .add(new Reserva(j + 1, horarioCancha[j], diasRestantes.get(d).toString(), capacidad[k]));
+                            .add(new Reserva(indice, horarioCancha[j], diasRestantes.get(d).toString(), capacidad[k]));
+                    indice++;
 
                 }
-                System.out.println("\n");
+
             }
 
         }
+
     }
 
-    public static void filtro(ArrayList reservas) {
+    public static void filtro() {
         String base = hoy.toString().substring(0, 8);
         // String base = "2025-11-";
+        input.nextLine();
         System.out.print("Ingresa el dia que deseas filtrar: ");
         String dia = input.nextLine();
         String resultado = base + dia;
         int coincidencias = 0;
-
         System.out.println(coincidencias + " coincidencias encontradas");
+        System.out.printf("%-30s %-20s %-20s %-20s\n", "ID", "HORA DISPONIBLE", "FECHA", "CAPACIDAD\n");
+
         for (Reserva reserva : getReservasDisponibles()) {
             if (reserva.getFecha().equals(resultado)) {
                 System.out.println(reserva.toString());

@@ -13,7 +13,6 @@ public class App {
 
         // Menu principal
         ServicioReserva.generarReservasDisponibles();
-        // FILTRAR POR DIA CON SUBSTRING
 
         byte inicio = MenuPrincipal.menuInicio(scanner);
         if (inicio == 1) {

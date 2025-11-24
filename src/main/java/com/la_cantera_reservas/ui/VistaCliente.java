@@ -15,8 +15,10 @@ public class VistaCliente {
             case 1:
                 input.nextLine();
                 boolean clienteValido = ServicioCliente.validacionCliente(inicioSesionCliente(input));
+                
 
                 break;
+
 
             default:
                 throw new AssertionError();
