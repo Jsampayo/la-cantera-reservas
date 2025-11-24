@@ -80,10 +80,8 @@ public class ServicioCliente {
         System.out.printf("%-5s %-20s %-15s %-10s\n", "ID-RESERVA", "HORA", "FECHA", "CAPACIDAD");
         System.out.println("────────────────────────────────────────────────────");
 
-        int contReservas = 0;
-
         for (Integer idReserva : getReservasActivas().keySet()) {
-            if (cliente.getId() == idReserva & contReservas < 0) {
+            if (cliente.getId() == idReserva) {
                 Reserva r = new Reserva(getReservasActivas().get(idReserva).getIdReserva(),
                         getReservasActivas().get(idReserva).getHora(),
                         getReservasActivas().get(idReserva).getFecha(),
@@ -91,13 +89,10 @@ public class ServicioCliente {
 
                 System.out.printf("%-5s %-20s %-15s %-10s\n", r.getIdReserva(), r.getHora(), r.getFecha(),
                         r.getCapacidad());
-                contReservas++;
 
                 // System.out.println("\nNo tienes reservas activas por el momento.\n");
 
                 System.out.println("════════════════════════════════\n");
-            } else if (cliente.getId() == idReserva & contReservas == 0) {
-                System.out.println("\nNo tienes reservas activas por el momento.\n");
             }
         }
     }
