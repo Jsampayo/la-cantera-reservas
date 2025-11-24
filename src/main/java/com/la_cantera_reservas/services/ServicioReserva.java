@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.la_cantera_reservas.model.Reserva;
+import static com.la_cantera_reservas.services.ServicioCliente.input;
 
 public class ServicioReserva {
     private static final HashMap<Integer, Reserva[]> reservasActivas = new HashMap<>();
