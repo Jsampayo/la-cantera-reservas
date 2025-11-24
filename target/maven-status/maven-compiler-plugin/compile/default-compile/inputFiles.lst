@@ -1,9 +1,11 @@
 M:\LA-CANTERA-RESERVAS\src\main\java\com\la_cantera_reservas\App.java
+M:\LA-CANTERA-RESERVAS\src\main\java\com\la_cantera_reservas\excepciones\MensajeAdmin.java
+M:\LA-CANTERA-RESERVAS\src\main\java\com\la_cantera_reservas\excepciones\MensajesCliente.java
 M:\LA-CANTERA-RESERVAS\src\main\java\com\la_cantera_reservas\model\Admin.java
 M:\LA-CANTERA-RESERVAS\src\main\java\com\la_cantera_reservas\model\Cancha.java
 M:\LA-CANTERA-RESERVAS\src\main\java\com\la_cantera_reservas\model\Cliente.java
 M:\LA-CANTERA-RESERVAS\src\main\java\com\la_cantera_reservas\model\Reserva.java
 M:\LA-CANTERA-RESERVAS\src\main\java\com\la_cantera_reservas\services\ServicioCliente.java
 M:\LA-CANTERA-RESERVAS\src\main\java\com\la_cantera_reservas\services\ServicioReserva.java
-M:\LA-CANTERA-RESERVAS\src\main\java\com\la_cantera_reservas\ui\MenuCliente.java
 M:\LA-CANTERA-RESERVAS\src\main\java\com\la_cantera_reservas\ui\MenuPrincipal.java
+M:\LA-CANTERA-RESERVAS\src\main\java\com\la_cantera_reservas\ui\VistaCliente.java
