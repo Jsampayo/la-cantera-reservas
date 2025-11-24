@@ -4,8 +4,6 @@ import java.util.Scanner;
 
 import com.la_cantera_reservas.model.Cliente;
 import com.la_cantera_reservas.services.ServicioCliente;
-import static com.la_cantera_reservas.services.ServicioCliente.inicioSesionCliente;
-import static com.la_cantera_reservas.services.ServicioCliente.verReservasActivas;
 
 public class VistaCliente {
     private static Cliente clienteActual;
@@ -21,50 +19,26 @@ public class VistaCliente {
     }
 
     public static void validadorDeOpcion() {
-        byte opcion = ServicioCliente.menuPrincipalCliente(input);
+        while (true) {
+            byte opcion = ServicioCliente.menuPrincipalCliente(input);
 
-        switch (opcion) {
-            case 1:
-                input.nextLine();
-                setClienteActual(inicioSesionCliente(input));
-                // clienteActual = inicioSesionCliente(input);
-                boolean clienteValido = ServicioCliente.validacionCliente(clienteActual);
-                break;
-            case 2: {
-                System.out.println("");
-                verReservasActivas();
+            switch (opcion) {
+                case 1:
+                    setClienteActual(ServicioCliente.inicioSesionCliente(input));
+                    ServicioCliente.validacionCliente(clienteActual);
+                    break;
+
+                case 2:
+                    ServicioCliente.registrarCliente();
+                    break;
+
+                case 3:
+                    System.out.println("Volviendo al menú principal...\n");
+                    return;
+
+                default:
+                    System.out.println("Opción no válida.\n");
             }
-
-            default:
-                throw new AssertionError();
         }
-
     }
-
-    // case 2: {
-    // String RegistroUser = Inicio_sesion_y_registro.Registrar_Username(input);
-    // System.out.println("Register Username: " + RegistroUser);
-    // String RegistroPassword = Inicio_sesion_y_registro.Registro_Password(input);
-    // System.out.println("Register Password: " + RegistroPassword);
-
-    // if (Usuarios.containsKey(RegistroUser)) {
-    // Mensajes.Sesion_en_uso();
-    // }
-
-    // else {
-    // Usuarios.put(RegistroUser, RegistroPassword);
-
-    // for (String user : Usuarios.keySet()) {
-    // System.out.println(index + ". Usuario: " + user);
-    // }
-    // }
-    // break;
-    // }
-
-    // default: {
-    // Mensajes.Opción_Invalida();
-    // Menu_cliente(input);
-    // break;
-    // }
-
 }
