@@ -8,6 +8,7 @@ import static com.la_cantera_reservas.services.ServicioCliente.getClientesRegist
 import com.la_cantera_reservas.services.ServicioReserva;
 import static com.la_cantera_reservas.services.ServicioReserva.getReservasActivas;
 import com.la_cantera_reservas.ui.MenuPrincipal;
+import com.la_cantera_reservas.ui.VistaAdmin;
 import com.la_cantera_reservas.ui.VistaCliente;
 
 public class App {
@@ -23,7 +24,9 @@ public class App {
         byte inicio = MenuPrincipal.menuInicio(scanner);
         if (inicio == 1) {
             VistaCliente.validadorDeOpcion();
-
+        }
+        if (inicio == 2){
+            VistaAdmin.CredencialesAdmin();
         }
     }
 

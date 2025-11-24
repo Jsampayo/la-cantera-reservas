@@ -1,7 +1,7 @@
 package com.la_cantera_reservas.excepciones;
 
 public class MensajeAdmin {
-    public void AutenticadoA(){
+    public static void AutenticadoA(){
     System.out.println("╔═════════════════════════╗");
     System.out.println("║                         ║");
     System.out.println("║                         ║");
@@ -11,7 +11,7 @@ public class MensajeAdmin {
     System.out.println("║                         ║");
     System.out.println("╚═════════════════════════╝");
 }
-public void NoautenticadoA(){
+public static void NoautenticadoA(){
     System.out.println("╔══════════════════════════════════════════╗");
     System.out.println("║                                          ║");
     System.out.println("║                                          ║");
@@ -21,7 +21,7 @@ public void NoautenticadoA(){
     System.out.println("║                                          ║");
     System.out.println("╚══════════════════════════════════════════╝");
 }
-public void NoContraseñaA(){
+public static void NoContraseñaA(){
     System.out.println("╔═════════════════════════╗");
     System.out.println("║                         ║");
     System.out.println("║       Contraseña        ║");
@@ -29,7 +29,7 @@ public void NoContraseñaA(){
     System.out.println("║                         ║");
     System.out.println("╚═════════════════════════╝");
 }
-public void NoUsuarioA(){
+public static void NoUsuarioA(){
     System.out.println("╔══════════════════════════╗");
     System.out.println("║                          ║");
     System.out.println("║    Este administrador    ║");
@@ -37,7 +37,7 @@ public void NoUsuarioA(){
     System.out.println("║                          ║");
     System.out.println("╚══════════════════════════╝");
 }
-public void CambioReservaA(){
+public static void CambioReservaA(){
     System.out.println("╔═══════════════════════════════════╗");
     System.out.println("║                                   ║");
     System.out.println("║         La reserva a sido         ║");
@@ -45,7 +45,7 @@ public void CambioReservaA(){
     System.out.println("║                                   ║");
     System.out.println("╚═══════════════════════════════════╝");
 }
-public void ReservaErrorA(){
+public static void ReservaErrorA(){
     System.out.println("╔═════════════════════════════════╗");
     System.out.println("║                                 ║");
     System.out.println("║          Esta reserva           ║");
@@ -54,7 +54,7 @@ public void ReservaErrorA(){
     System.out.println("╚═════════════════════════════════╝");
 }
 
-public void ClineteErrorA(){
+public static void ClineteErrorA(){
     System.out.println("╔═════════════════════════════╗");
     System.out.println("║                             ║");
     System.out.println("║         Este usurio         ║");
