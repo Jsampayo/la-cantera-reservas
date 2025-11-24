@@ -6,6 +6,12 @@ public class Admin {
     private int idAdmin;
     private String password;
     private final HashMap<Integer, Reserva> reservasCancha = new HashMap<>();
+    private static Admin AdministradorCantera = new Admin(123, "321");
+
+    public static Admin getAdmin (){
+        return AdministradorCantera;
+    }
+
 
     public Admin(int idAdmin, String password) {
         this.idAdmin = idAdmin;
