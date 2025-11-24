@@ -94,7 +94,6 @@ public class ServicioReserva {
                 if (dReserva.equalsIgnoreCase("s")) {
                     getReservasActivas().put(idClienteACtual, reserva);
 
-                    // getReservasActivas().put(123, new Reserva(0, null, null, 0));
                     getReservasDisponibles().remove(reserva);
                     System.out.println("\nRESERVA REALIZADA");
                     validacionCliente(VistaCliente.getClienteActual());

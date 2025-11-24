@@ -82,11 +82,12 @@ public class ServicioCliente {
 
         for (Integer idReserva : getReservasActivas().keySet()) {
             Reserva r = new Reserva(getReservasActivas().get(idReserva).getIdReserva(),
-                    getReservasActivas().get(idReserva).getHora(), 
+                    getReservasActivas().get(idReserva).getHora(),
                     getReservasActivas().get(idReserva).getFecha(),
                     getReservasActivas().get(idReserva).getCapacidad());
 
-            System.out.printf("%-5s %-20s %-15s %-10s\n", r.getIdReserva(), r.getHora(), r.getFecha(), r.getCapacidad());
+            System.out.printf("%-5s %-20s %-15s %-10s\n", r.getIdReserva(), r.getHora(), r.getFecha(),
+                    r.getCapacidad());
 
             // System.out.println("\nNo tienes reservas activas por el momento.\n");
 
@@ -94,7 +95,19 @@ public class ServicioCliente {
         }
     }
 
-    public static void registrarCliente() {
-        System.out.println("\nMódulo de registro en desarrollo...\n");
+    public static void registrarCliente(Scanner input) {
+        System.out.print("Ingresa tu nombre de usuario: ");
+        String nombreCliente = input.nextLine();
+        input.nextLine();
+        System.out.println("Ingresa tu id: ");
+        int idClient = input.nextInt();
+        input.nextLine();
+        System.out.println("Ingresa tu clave: ");
+        String claveCliente = input.nextLine();
+        input.nextLine();
+
+        Cliente nuevo = new Cliente(nombreCliente, claveCliente, idClient);
+        getClientesRegistrados().put(nuevo.getId(), nuevo);
+
     }
 }
