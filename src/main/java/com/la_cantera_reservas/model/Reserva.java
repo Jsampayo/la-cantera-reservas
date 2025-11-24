@@ -29,7 +29,7 @@ public class Reserva {
         return this.hora;
     }
 
-    public String getCancha() {
+    public String getFecha() {
         return this.fecha;
     }
 
@@ -39,7 +39,8 @@ public class Reserva {
 
     // @Override
     // public String toString() {
-    //     return "Hora: " + this.hora + ", Cancha: " + this.fecha + ", Capacidad: " + this.capacidad;
+    // return "Hora: " + this.hora + ", Cancha: " + this.fecha + ", Capacidad: " +
+    // this.capacidad;
     // }
 
     // public void Reservar(Scanner scanner) {
