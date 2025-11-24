@@ -2,32 +2,26 @@ package com.la_cantera_reservas.model;
 
 import java.util.HashMap;
 
-// public class Admin extends Usuario {
+public class Admin {
+    private int idAdmin;
+    private String password;
+    private final HashMap<Integer, Reserva> reservasCancha = new HashMap<>();
 
-//     public Admin(int id, String password) {
-//         super(id, password);
-//     }
+    public Admin(int idAdmin, String password) {
+        this.idAdmin = idAdmin;
+        this.password = password;
+    }
 
-//     private String IdAdmin;
-//     private String PasswordAdmin;
-    
+    public int getIdAdmin() {
+        return this.idAdmin;
+    }
 
-//     public String getIdAdmin() {
-//         return this.IdAdmin;
-//     }
+    public String getPasswordAdmin() {
+        return this.password;
+    }
 
-//     public String getPasswordAdmin() {
-//         return this.PasswordAdmin;
-//     }
+    public HashMap<Integer, Reserva> getReservasCancha() {
+        return this.reservasCancha;
+    }
 
-
-//     private final HashMap<Integer, String[]> reservasCancha = new HashMap<>();
-
-    
-
-//     public HashMap<Integer, String[]> getReservasCancha() {
-//         return this.reservasCancha;
-//     }
-
-
-//}
+}
