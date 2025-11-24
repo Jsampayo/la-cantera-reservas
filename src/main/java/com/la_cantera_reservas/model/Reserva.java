@@ -1,20 +1,28 @@
 package com.la_cantera_reservas.model;
 
 public class Reserva {
-    private final int idCliente;
+    private final int idReserva = 0;
     private final String hora;
-    private final String cancha;
+    private final String fecha;
     private final int capacidad;
 
-    public Reserva(int idCliente, String hora, String cancha, int capacidad) {
+    public Reserva(int idReserva, String hora, String fecha, int capacidad) {
         this.hora = hora;
-        this.cancha = cancha;
+        this.fecha = fecha;
         this.capacidad = capacidad;
-        this.idCliente = idCliente;
+        idReserva++;
+
     }
 
-    public int getIdCliente() {
-        return this.idCliente;
+    // public Reserva(String hora, String cancha, int capacidad) {
+    // this.hora = hora;
+    // this.cancha = cancha;
+    // this.capacidad = capacidad;
+
+    // }
+
+    public int getIdReserva() {
+        return this.idReserva;
     }
 
     public String getHora() {
@@ -22,17 +30,17 @@ public class Reserva {
     }
 
     public String getCancha() {
-        return this.cancha;
+        return this.fecha;
     }
 
     public int getCapacidad() {
         return this.capacidad;
     }
 
-    @Override
-    public String toString() {
-        return "Hora: " + this.hora + ", Cancha: " + this.cancha + ", Capacidad: " + this.capacidad;
-    }
+    // @Override
+    // public String toString() {
+    //     return "Hora: " + this.hora + ", Cancha: " + this.fecha + ", Capacidad: " + this.capacidad;
+    // }
 
     // public void Reservar(Scanner scanner) {
 

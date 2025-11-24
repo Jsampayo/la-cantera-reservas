@@ -3,24 +3,26 @@ package com.la_cantera_reservas.services;
 import java.util.HashMap;
 import java.util.Scanner;
 
+import com.la_cantera_reservas.excepciones.MensajesCliente;
 import com.la_cantera_reservas.model.Cliente;
-import com.la_cantera_reservas.model.Reserva;
 
 public class ServicioCliente {
     static Scanner input = new Scanner(System.in);
     private static final HashMap<Integer, Cliente> ClientesRegistrados = new HashMap<>();
-    private final HashMap<Integer, Reserva[]> reservasCliente = new HashMap<>();
-
-    public HashMap<Integer, Reserva[]> getReservasCliente() {
-        return this.reservasCliente;
-    }
 
     public static HashMap<Integer, Cliente> getClientesRegistrados() {
         return ServicioCliente.ClientesRegistrados;
     }
 
+    public static byte menuPrincipalCliente(Scanner input) {
+        System.out.println("1. Iniciar Sesión\n2. Registrarse");
+        System.out.print("\nDigite su opcion: ");
+        byte opcion = input.nextByte();
+        return opcion;
+    }
+
     // Menu mostrado al elegir la opcion Usuario en el menu principal y acceder
-    public static Cliente Inicio_de_sesion_Cliente(Scanner input) {
+    public static Cliente inicioSesionCliente(Scanner input) {
         System.out.print("Ingrese su id de usuario: ");
         int id = input.nextInt();
         input.nextLine();
@@ -29,24 +31,39 @@ public class ServicioCliente {
         return new Cliente(id, UserPassword);
     }
 
-    public static void validacionCliente() {
+    public static boolean validacionCliente(Cliente client) {
         boolean clienteEncontrado = false;
-
-        Cliente datosIngresoCliente = Inicio_de_sesion_Cliente(input);
 
         for (Integer cliente : ServicioCliente.getClientesRegistrados().keySet()) {
             Cliente c = ServicioCliente.getClientesRegistrados().get(cliente);
 
-            if (cliente.equals(datosIngresoCliente.getId())
-                    && c.getPassword().equals(datosIngresoCliente.getPassword())) {
+            if (cliente.equals(client.getId())
+                    && c.getPassword().equals(client.getPassword())) {
                 clienteEncontrado = true;
-                System.out.println("Inicio de sesion exitoso");
+                menuCliente();
+
             }
 
         }
         if (!clienteEncontrado) {
-            System.out.println("Credenciales incorrectas");
+            MensajesCliente.Noautenticado();
         }
+
+        return clienteEncontrado;
     }
 
+    public static byte menuCliente() {
+        System.out.println("\nBienvenido al menu cliente");
+        System.out.println("\n1. Realizar una reserva\n2. Ver reservas activas");
+        System.out.print("\nDigite su opcion: ");
+        byte opcion = input.nextByte();
+        return opcion;
+
+    }
+
+    public static void registrarCliente() {
+
+        System.out.println("");
+
+    }
 }

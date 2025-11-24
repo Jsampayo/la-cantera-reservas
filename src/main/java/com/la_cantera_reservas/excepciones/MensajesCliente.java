@@ -12,7 +12,7 @@ public class MensajesCliente {
         System.out.println("╚═════════════════════════╝");
     }
 
-    public void Noautenticado() {
+    public static void Noautenticado() {
         System.out.println("╔═══════════════════════════╗");
         System.out.println("║                           ║");
         System.out.println("║                           ║");
