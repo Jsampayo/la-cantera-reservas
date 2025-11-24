@@ -68,9 +68,8 @@ public class ServicioCliente {
     }
 
     public static void verReservasActivas() {
-        // for(Integer idCliente : getReservasActivas()){
-
-        // }
+       System.out.println("hola");
+       
     }
 
     public static void registrarCliente() {
