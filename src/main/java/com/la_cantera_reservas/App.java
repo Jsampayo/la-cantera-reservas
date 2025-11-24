@@ -2,6 +2,7 @@ package com.la_cantera_reservas;
 
 import java.util.Scanner;
 
+import com.la_cantera_reservas.services.ServicioReserva;
 import com.la_cantera_reservas.ui.MenuPrincipal;
 import com.la_cantera_reservas.ui.VistaCliente;
 
@@ -11,9 +12,12 @@ public class App {
         Scanner scanner = new Scanner(System.in);
 
         // Menu principal
+        ServicioReserva.generarReservasDisponibles();
+        // FILTRAR POR DIA CON SUBSTRING
+
         byte inicio = MenuPrincipal.menuInicio(scanner);
         if (inicio == 1) {
-            VistaCliente.Menu_cliente(scanner);
+            VistaCliente.validadorDeOpcion();
 
         }
     }
