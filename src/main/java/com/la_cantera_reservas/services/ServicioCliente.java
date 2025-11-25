@@ -7,6 +7,8 @@ import com.la_cantera_reservas.excepciones.MensajesCliente;
 import com.la_cantera_reservas.model.Cliente;
 import com.la_cantera_reservas.model.Reserva;
 import static com.la_cantera_reservas.services.ServicioReserva.getReservasActivas;
+
+import com.la_cantera_reservas.ui.MenuPrincipal;
 import com.la_cantera_reservas.ui.VistaCliente;
 
 public class ServicioCliente {
@@ -49,8 +51,7 @@ public class ServicioCliente {
                     } else if (opcion == 2) {
                         ServicioCliente.verReservasActivas();
                     } else if (opcion == 3) {
-                        System.out.println("Sesión cerrada.\n");
-                        VistaCliente.setClienteActual(null);
+                        MenuPrincipal.menuInicio(MenuPrincipal.input);
                         return true;
                     } else {
                         System.out.println("Opción inválida.\n");
@@ -64,7 +65,7 @@ public class ServicioCliente {
 
     public static byte menuCliente() {
         System.out.println("\nBienvenido al menu cliente");
-        System.out.println("\n1. Realizar una reserva\n2. Ver reservas activas\n3. Salir");
+        System.out.println("\n1. Realizar una reserva\n2. Ver reservas activas\n3. Atras");
         System.out.print("\nDigite su opcion: ");
         return input.nextByte();
     }

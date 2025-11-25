@@ -34,6 +34,8 @@ public class VistaCliente {
 
                 case 3:
                     System.out.println("Volviendo al menú principal...\n");
+                     MenuPrincipal.menuInicio(MenuPrincipal.input);
+                
                     return;
 
                 default:
