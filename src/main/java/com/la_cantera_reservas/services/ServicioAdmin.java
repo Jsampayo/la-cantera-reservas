@@ -6,6 +6,8 @@ import java.util.Scanner;
 
 import com.la_cantera_reservas.excepciones.MensajeAdmin;
 import com.la_cantera_reservas.model.Admin;
+import com.la_cantera_reservas.model.Reserva;
+import com.la_cantera_reservas.ui.VistaCliente;
 
 public class ServicioAdmin {
 
@@ -23,7 +25,6 @@ public class ServicioAdmin {
     public static int Opciones(Scanner input){
         System.out.println("Que acción desea realizar");
         System.out.println("1. Consultar Reservas Cliente");
-        System.out.println("2. Eliminar Reserva");
         int opcion = input.nextInt();
         return opcion;
     }
@@ -32,12 +33,10 @@ public class ServicioAdmin {
         System.out.println("Ingrese el ID del cliente a consultar: ");
         int IdConsulta = input.nextInt();
         return IdConsulta;
+        
+
+    
     }
 
-    public static int IdEliminar(Scanner input){
-        System.out.println("Escoja la reserva a Eliminar: ");
-        int IdEliminar = input.nextInt();
-        return IdEliminar;
     }
-}
 
