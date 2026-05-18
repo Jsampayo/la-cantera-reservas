@@ -3,7 +3,6 @@ package com.la_cantera_reservas.excepciones;
 import javax.swing.JOptionPane;
 
 public class MensajesCliente {
-    // ✅ Todos static (antes mezclaba static e instancia)
     public static void autenticado(String nombre) {
         JOptionPane.showMessageDialog(null, "¡Bienvenido, " + nombre + "!", "Acceso", JOptionPane.INFORMATION_MESSAGE);
     }

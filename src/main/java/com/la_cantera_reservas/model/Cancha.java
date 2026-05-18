@@ -5,7 +5,7 @@ import java.util.List;
 public class Cancha {
     private final int    id;
     private final String nombre;
-    private final String tipo;     // Fútbol 5, Fútbol 7, etc.
+    private final String tipo;    
 
     public Cancha(int id, String nombre, String tipo) {
         this.id     = id;
@@ -22,7 +22,6 @@ public class Cancha {
         return nombre + " (" + tipo + ")";
     }
 
-    // ── Canchas disponibles del complejo ────────────────────────────
     private static final List<Cancha> CANCHAS = List.of(
         new Cancha(1, "Cancha A", "Fútbol 5"),
         new Cancha(2, "Cancha B", "Fútbol 5"),

@@ -8,11 +8,11 @@ import javax.swing.SwingUtilities;
 
 public class App {
     public static void main(String[] args) {
-        // Datos de prueba
+
         ServicioCliente.getClientesRegistrados().put(123, new Cliente("pacho", "123", 123));
         ServicioReserva.generarReservasDisponibles();
 
-        // ✅ Swing debe iniciarse en el Event Dispatch Thread (EDT)
+        
         SwingUtilities.invokeLater(() -> new VentanaPrincipal().setVisible(true));
     }
 }
