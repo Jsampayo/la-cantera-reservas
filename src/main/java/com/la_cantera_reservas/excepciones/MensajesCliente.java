@@ -1,71 +1,22 @@
 package com.la_cantera_reservas.excepciones;
 
+import javax.swing.JOptionPane;
+
 public class MensajesCliente {
-
-    public void Autenticado() {
-        System.out.println("╔═════════════════════════╗");
-        System.out.println("║                         ║");
-        System.out.println("║                         ║");
-        System.out.println("║        Bienvenido       ║");
-        System.out.println("║                         ║");
-        System.out.println("║                         ║");
-        System.out.println("╚═════════════════════════╝");
+    // ✅ Todos static (antes mezclaba static e instancia)
+    public static void autenticado(String nombre) {
+        JOptionPane.showMessageDialog(null, "¡Bienvenido, " + nombre + "!", "Acceso", JOptionPane.INFORMATION_MESSAGE);
     }
-
-    public static void Noautenticado() {
-        System.out.println("╔═══════════════════════════╗");
-        System.out.println("║                           ║");
-        System.out.println("║                           ║");
-        System.out.println("║       Credenciales        ║");
-        System.out.println("║       Incorrectas         ║");
-        System.out.println("║                           ║");
-        System.out.println("║                           ║");
-        System.out.println("╚═══════════════════════════╝");
+    public static void noAutenticado() {
+        JOptionPane.showMessageDialog(null, "Credenciales incorrectas.", "Error", JOptionPane.ERROR_MESSAGE);
     }
-
-    public void NoContraseña() {
-        System.out.println("╔═════════════════════════╗");
-        System.out.println("║                         ║");
-        System.out.println("║       Contraseña        ║");
-        System.out.println("║       Incorrecta        ║");
-        System.out.println("║                         ║");
-        System.out.println("╚═════════════════════════╝");
+    public static void reservaExitosa() {
+        JOptionPane.showMessageDialog(null, "¡Su reserva ha sido registrada!", "Éxito", JOptionPane.INFORMATION_MESSAGE);
     }
-
-    public void NoUsuario() {
-        System.out.println("╔═════════════════════════╗");
-        System.out.println("║                         ║");
-        System.out.println("║      No existe el       ║");
-        System.out.println("║    Nombre de usuario    ║");
-        System.out.println("║                         ║");
-        System.out.println("╚═════════════════════════╝");
+    public static void reservaOcupada() {
+        JOptionPane.showMessageDialog(null, "Esta cancha ya ha sido reservada.", "No disponible", JOptionPane.WARNING_MESSAGE);
     }
-
-    public void ReservaExitosa() {
-        System.out.println("╔═════════════════════════╗");
-        System.out.println("║                         ║");
-        System.out.println("║        Su reverva       ║");
-        System.out.println("║     ha sido registrada  ║");
-        System.out.println("║                         ║");
-        System.out.println("╚═════════════════════════╝");
+    public static void reservaError() {
+        JOptionPane.showMessageDialog(null, "Por favor ingrese todos los datos.", "Error", JOptionPane.ERROR_MESSAGE);
     }
-
-    public void ReservaError() {
-        System.out.println("╔═════════════════════════╗");
-        System.out.println("║                         ║");
-        System.out.println("║     Por favor digite    ║");
-        System.out.println("║     todos los datos     ║");
-        System.out.println("║                         ║");
-        System.out.println("╚═════════════════════════╝");
-    }
-
-    public void ReservaOcupada() {
-        System.out.println("╔═════════════════════════════╗");
-        System.out.println("║                             ║");
-        System.out.println("║         Esta cancha         ║");
-        System.out.println("║     ya ha sido reservada    ║");
-        System.out.println("║                             ║");
-        System.out.println("╚═════════════════════════════╝");
-    }
-
 }
