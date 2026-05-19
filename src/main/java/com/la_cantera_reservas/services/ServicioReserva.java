@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 public class ServicioReserva {
 
-    private static final HashMap<Integer, Reserva> reservasActivas     = new HashMap<>();
+    private static final HashMap<Integer, List<Reserva>> reservasActivas = new HashMap<>();
     private static final ArrayList<Reserva>        reservasDisponibles = new ArrayList<>();
 
     public static final String[] horarioCancha = {
@@ -18,10 +18,10 @@ public class ServicioReserva {
     };
     public static final int[] capacidades = { 10, 14, 16 };
 
-    public static HashMap<Integer, Reserva> getReservasActivas()     { return reservasActivas;     }
+    public static HashMap<Integer, List<Reserva>> getReservasActivas() { return reservasActivas; }
     public static ArrayList<Reserva>        getReservasDisponibles() { return reservasDisponibles; }
 
-    // ── Genera reservas cruzando: días × canchas × horarios ─────────
+    
     public static void generarReservasDisponibles() {
         LocalDate hoy    = LocalDate.now();
         LocalDate finMes = hoy.withDayOfMonth(hoy.lengthOfMonth());
@@ -29,9 +29,8 @@ public class ServicioReserva {
 
         int indice = 1;
         for (LocalDate dia : dias) {
-            for (Cancha cancha : Cancha.getCanchas()) {          // ← itera canchas
+            for (Cancha cancha : Cancha.getCanchas()) {         
                 for (String hora : horarioCancha) {
-                    // La capacidad la define el tipo de cancha
                     int cap = capacidadSegunTipo(cancha.getTipo());
                     reservasDisponibles.add(
                         new Reserva(indice++, hora, dia.toString(), cap, cancha.getNombre())
@@ -39,6 +38,9 @@ public class ServicioReserva {
                 }
             }
         }
+    }
+    public static boolean reservarParaCliente(int idReserva, int idCliente) {
+            return reservar(idReserva, idCliente);
     }
 
     private static int capacidadSegunTipo(String tipo) {
@@ -72,28 +74,28 @@ public class ServicioReserva {
     }
 
     public static boolean reservar(int idReserva, int idCliente) {
-        for (Reserva r : reservasDisponibles) {
-            if (r.getIdReserva() == idReserva) {
-                reservasActivas.put(idCliente, r);
-                reservasDisponibles.remove(r);
-                return true;
-            }
+    for (Reserva r : reservasDisponibles) {
+        if (r.getIdReserva() == idReserva) {
+            reservasActivas.computeIfAbsent(idCliente, k -> new ArrayList<>()).add(r);
+            reservasDisponibles.remove(r);
+            return true;
         }
-        return false;
     }
+    return false;
+}
 
     public static boolean eliminarReservaDisponible(int idReserva) {
         return reservasDisponibles.removeIf(r -> r.getIdReserva() == idReserva);
     }
 
     public static boolean cancelarReservaActiva(int idCliente) {
-        Reserva r = reservasActivas.remove(idCliente);
-        if (r == null) return false;
-        reservasDisponibles.add(r);
-        return true;
+    List<Reserva> lista = reservasActivas.remove(idCliente);
+    if (lista == null || lista.isEmpty()) return false;
+    reservasDisponibles.addAll(lista);
+    return true;
     }
 
-    public static Reserva getReservaDeCliente(int idCliente) {
-        return reservasActivas.get(idCliente);
+    public static List<Reserva> getReservasDeCliente(int idCliente) {
+    return reservasActivas.getOrDefault(idCliente, new ArrayList<>());
     }
 }

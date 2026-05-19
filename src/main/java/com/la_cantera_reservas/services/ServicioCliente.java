@@ -30,4 +30,8 @@ public class ServicioCliente {
         clientesRegistrados.put(id, new Cliente(nombre, password, id));
         return true;
     }
+    public static boolean eliminarCliente(int id) {
+        return clientesRegistrados.remove(id) != null;
+    }
+
 }
