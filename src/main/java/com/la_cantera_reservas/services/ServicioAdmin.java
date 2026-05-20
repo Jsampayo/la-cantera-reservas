@@ -1,42 +1,13 @@
 package com.la_cantera_reservas.services;
 
-import static com.la_cantera_reservas.services.ServicioCliente.input;
-
-import java.util.Scanner;
-
-import com.la_cantera_reservas.excepciones.MensajeAdmin;
 import com.la_cantera_reservas.model.Admin;
-import com.la_cantera_reservas.model.Reserva;
-import com.la_cantera_reservas.ui.VistaCliente;
 
 public class ServicioAdmin {
 
-    public static Admin Administrador(Scanner input) {
-        System.out.print("Ingrese su id de Administrador: ");
-        int idAdmin = input.nextInt();
-        input.nextLine();
 
-        System.out.print("Ingrese su contraseña: ");
-        String AdminPassword = input.nextLine();
-
-        return new Admin(idAdmin,AdminPassword);
+    public static boolean validarAdmin(int idAdmin, String password) {
+        Admin admin = Admin.getAdmin();
+        return admin.getIdAdmin() == idAdmin
+            && admin.getPasswordAdmin().equals(password);
     }
-
-    public static int Opciones(Scanner input){
-        System.out.println("Que acción desea realizar");
-        System.out.println("1. Consultar Reservas Cliente");
-        int opcion = input.nextInt();
-        return opcion;
-    }
-
-    public static int IdConsultar(Scanner input){
-        System.out.println("Ingrese el ID del cliente a consultar: ");
-        int IdConsulta = input.nextInt();
-        return IdConsulta;
-        
-
-    
-    }
-
-    }
-
+}

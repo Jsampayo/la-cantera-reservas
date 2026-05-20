@@ -1,64 +1,35 @@
 package com.la_cantera_reservas.model;
 
 public class Reserva {
-    private int idReserva = 0;
+    private int    idReserva;
     private final String hora;
     private final String fecha;
-    private final int capacidad;
+    private final int    capacidad;
+    private final String cancha;
 
-    public Reserva(int idReserva, String hora, String fecha, int capacidad) {
-        this.hora = hora;
-        this.fecha = fecha;
+
+    public Reserva(int idReserva, String hora, String fecha, int capacidad, String cancha) {
+        this.idReserva = idReserva;
+        this.hora      = hora;
+        this.fecha     = fecha;
         this.capacidad = capacidad;
-        this.idReserva = idReserva++;
-
+        this.cancha    = cancha;
     }
 
-    // public Reserva(String hora, String cancha, int capacidad) {
-    // this.hora = hora;
-    // this.cancha = cancha;
-    // this.capacidad = capacidad;
-
-    // }
-
-    public int getIdReserva() {
-        return this.idReserva;
+   
+    public Reserva(int idReserva, String hora, String fecha, int capacidad) {
+        this(idReserva, hora, fecha, capacidad, "Sin asignar");
     }
 
-    public String getHora() {
-        return this.hora;
-    }
-
-    public String getFecha() {
-        return this.fecha;
-    }
-
-    public int getCapacidad() {
-        return this.capacidad;
-    }
+    public int    getIdReserva() { return idReserva; }
+    public String getHora()      { return hora;      }
+    public String getFecha()     { return fecha;     }
+    public int    getCapacidad() { return capacidad; }
+    public String getCancha()    { return cancha;    }
 
     @Override
     public String toString() {
-
-        String texto = String.format("%-30s %-20s %-20s %-20s\n", this.idReserva, this.hora, this.fecha,
-                this.capacidad);
-
-        return texto;
+        return String.format("%-5d %-15s %-20s %-15s %-10d",
+                idReserva, cancha, hora, fecha, capacidad);
     }
-
-    // public void Reservar(Scanner scanner) {
-
-    // System.out.print("Ingresa la hora de tu reserva: ");
-    // String hora = scanner.nextLine();
-    // System.out.print("Ingresa la cancha de tu reserva: ");
-    // String cancha = scanner.nextLine();
-    // System.out.print("Ingresa la capacidad de tu reserva: ");
-    // int capacidad = scanner.nextInt();
-
-    // getTablaReservas().add(new Reserva(hora, cancha, capacidad));
-
-    // System.out.println(getTablaReservas());
-
-    // }
-
 }
