@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos :: cabecera('Asignar reserva')}"></head>
+<body class="pagina">
+    <header th:replace="~{fragmentos :: barraAdmin('asignar')}"></header>
+
+    <main>
+        <section class="seccion">
+            <div class="contenedor">
+                <h1 class="titulo-pagina">Asignar reserva</h1>
+                <p class="nota">Elige un día y asigna uno de los turnos disponibles a un cliente escribiendo su ID.</p>
+                <div th:replace="~{fragmentos :: mensajes}"></div>
+
+                <div class="panel">
+                    <form class="formulario-fila" th:action="@{/admin/asignar}" method="get">
+                        <div class="campo">
+                            <label for="fecha">Día</label>
+                            <input id="fecha" name="fecha" type="date" th:value="${fecha}" required>
+                        </div>
+                        <button class="boton boton-oscuro" type="submit">Buscar</button>
+                    </form>
+                </div>
+
+                <h2 class="subtitulo" th:text="'Turnos disponibles el ' + ${#temporals.format(fecha, 'dd/MM/yyyy')}">Turnos disponibles</h2>
+                <p class="vacio" th:if="${#lists.isEmpty(disponibles)}">No hay turnos disponibles para este día.</p>
+                <div class="tabla-envoltura" th:unless="${#lists.isEmpty(disponibles)}">
+                    <table class="tabla">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Cancha</th>
+                                <th>Hora</th>
+                                <th>Capacidad</th>
+                                <th>Asignar a un cliente</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="r : ${disponibles}">
+                                <td th:text="${r.id}"></td>
+                                <td th:text="${r.cancha.nombre}"></td>
+                                <td th:text="${r.hora}"></td>
+                                <td th:text="${r.capacidad}"></td>
+                                <td>
+                                    <form class="en-linea" th:action="@{/admin/reservas/{id}/asignar(id=${r.id})}" method="post">
+                                        <input type="hidden" name="fecha" th:value="${fecha}">
+                                        <input class="mini-input" type="number" name="clienteId" placeholder="ID cliente" aria-label="ID del cliente" required>
+                                        <button class="boton boton-oscuro boton-chico" type="submit">Asignar</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer th:replace="~{fragmentos :: pie}"></footer>
+</body>
+</html>

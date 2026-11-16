@@ -1,101 +1,199 @@
 package com.la_cantera_reservas.services;
 
-import com.la_cantera_reservas.model.Cancha;
-import com.la_cantera_reservas.model.Reserva;
+import java.time.Clock;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.la_cantera_reservas.model.Cancha;
+import com.la_cantera_reservas.model.Cliente;
+import com.la_cantera_reservas.model.Reserva;
+import com.la_cantera_reservas.repository.CanchaRepository;
+import com.la_cantera_reservas.repository.ClienteRepository;
+import com.la_cantera_reservas.repository.ReservaRepository;
+
+@Service
 public class ServicioReserva {
 
-    private static final HashMap<Integer, List<Reserva>> reservasActivas = new HashMap<>();
-    private static final ArrayList<Reserva>        reservasDisponibles = new ArrayList<>();
+    public static final List<String> HORARIOS = List.of(
+            "4 PM - 6 PM", "6 PM - 8 PM", "8 PM - 10 PM", "10 PM - 12 AM");
 
-    public static final String[] horarioCancha = {
-        "4 PM - 6 PM", "6 PM - 8 PM", "8 PM - 10 PM", "10 PM - 12 AM"
-    };
-    public static final int[] capacidades = { 10, 14, 16 };
+    /** Cuántos días hacia adelante (contando hoy) mantiene turnos creados el generador. */
+    public static final int DIAS_ADELANTE = 30;
 
-    public static HashMap<Integer, List<Reserva>> getReservasActivas() { return reservasActivas; }
-    public static ArrayList<Reserva>        getReservasDisponibles() { return reservasDisponibles; }
+    private final ReservaRepository reservaRepository;
+    private final CanchaRepository canchaRepository;
+    private final ClienteRepository clienteRepository;
+    private final Clock clock;
 
-    
-    public static void generarReservasDisponibles() {
-        LocalDate hoy    = LocalDate.now();
-        LocalDate finMes = hoy.withDayOfMonth(hoy.lengthOfMonth());
-        List<LocalDate> dias = hoy.datesUntil(finMes.plusDays(1)).collect(Collectors.toList());
+    public ServicioReserva(ReservaRepository reservaRepository,
+                           CanchaRepository canchaRepository,
+                           ClienteRepository clienteRepository,
+                           Clock clock) {
+        this.reservaRepository = reservaRepository;
+        this.canchaRepository = canchaRepository;
+        this.clienteRepository = clienteRepository;
+        this.clock = clock;
+    }
 
-        int indice = 1;
-        for (LocalDate dia : dias) {
-            for (Cancha cancha : Cancha.getCanchas()) {         
-                for (String hora : horarioCancha) {
-                    int cap = capacidadSegunTipo(cancha.getTipo());
-                    reservasDisponibles.add(
-                        new Reserva(indice++, hora, dia.toString(), cap, cancha.getNombre())
-                    );
+    /** Fecha de hoy en la zona horaria del negocio (Bogotá). */
+    public LocalDate hoy() {
+        return LocalDate.now(clock);
+    }
+
+    /**
+     * Crea los turnos que falten desde hoy hasta DIAS_ADELANTE días más adelante.
+     * Es seguro llamarlo varias veces: no duplica turnos que ya existen.
+     */
+    @Transactional
+    public void generarReservasDisponibles() {
+        LocalDate hoy = hoy();
+        LocalDate hasta = hoy.plusDays(DIAS_ADELANTE - 1L);
+        List<Cancha> canchas = canchaRepository.findAll();
+
+        // Una sola consulta para saber qué turnos ya existen (en vez de una por turno).
+        Set<String> existentes = new HashSet<>();
+        for (Reserva r : reservaRepository.findByFechaBetween(hoy, hasta)) {
+            existentes.add(clave(r.getCancha().getId(), r.getFecha(), r.getHora()));
+        }
+
+        List<Reserva> nuevas = new ArrayList<>();
+        for (LocalDate dia = hoy; !dia.isAfter(hasta); dia = dia.plusDays(1)) {
+            for (Cancha cancha : canchas) {
+                for (String hora : HORARIOS) {
+                    if (!existentes.contains(clave(cancha.getId(), dia, hora))) {
+                        nuevas.add(new Reserva(cancha, dia, hora, cancha.getCapacidad()));
+                    }
                 }
             }
         }
-    }
-    public static boolean reservarParaCliente(int idReserva, int idCliente) {
-            return reservar(idReserva, idCliente);
+        reservaRepository.saveAll(nuevas);
     }
 
-    private static int capacidadSegunTipo(String tipo) {
-        return switch (tipo) {
-            case "Fútbol 5"  -> 10;
-            case "Fútbol 7"  -> 14;
-            case "Fútbol 11" -> 22;
-            default          -> 10;
-        };
+    private String clave(Integer canchaId, LocalDate fecha, String hora) {
+        return canchaId + "|" + fecha + "|" + hora;
     }
 
-    public static List<Reserva> filtrarPorDia(String dia) {
-        String fecha = LocalDate.now().toString().substring(0, 8) + dia;
-        return reservasDisponibles.stream()
-                .filter(r -> r.getFecha().equals(fecha))
-                .collect(Collectors.toList());
+    public List<Cancha> getCanchas() {
+        return canchaRepository.findAll(Sort.by("id"));
     }
 
-    public static List<Reserva> filtrarPorCancha(String nombreCancha) {
-        return reservasDisponibles.stream()
-                .filter(r -> r.getCancha().equals(nombreCancha))
-                .collect(Collectors.toList());
+    public List<Reserva> disponiblesDelDia(LocalDate fecha) {
+        return ordenar(reservaRepository.findByFechaAndClienteIsNullAndEstado(fecha, Reserva.DISPONIBLE));
     }
 
-    public static boolean crearReserva(String hora, String fecha, int capacidad, String cancha) {
-        if (hora.isBlank() || fecha.isBlank() || cancha.isBlank() || capacidad <= 0) return false;
-        int nuevoId = reservasDisponibles.stream()
-                .mapToInt(Reserva::getIdReserva).max().orElse(0) + 1;
-        reservasDisponibles.add(new Reserva(nuevoId, hora, fecha, capacidad, cancha));
+    public List<Reserva> sinClienteDelDia(LocalDate fecha) {
+        return ordenar(reservaRepository.findByFechaAndClienteIsNull(fecha));
+    }
+
+    public List<Reserva> activas(Integer idCliente) {
+        if (idCliente == null) {
+            return ordenar(reservaRepository.findByClienteIsNotNull());
+        }
+        return ordenar(reservaRepository.findByClienteId(idCliente));
+    }
+
+    public List<Reserva> getReservasDeCliente(int idCliente) {
+        return ordenar(reservaRepository.findByClienteId(idCliente));
+    }
+
+    @Transactional
+    public boolean reservar(int idReserva, int idCliente) {
+        Reserva reserva = reservaRepository.findById(idReserva).orElse(null);
+        Cliente cliente = clienteRepository.findById(idCliente).orElse(null);
+        if (reserva == null || cliente == null) {
+            return false;
+        }
+        if (reserva.getCliente() != null || !Reserva.DISPONIBLE.equals(reserva.getEstado())) {
+            return false;
+        }
+        reserva.setCliente(cliente);
+        reservaRepository.save(reserva);
         return true;
     }
 
-    public static boolean reservar(int idReserva, int idCliente) {
-    for (Reserva r : reservasDisponibles) {
-        if (r.getIdReserva() == idReserva) {
-            reservasActivas.computeIfAbsent(idCliente, k -> new ArrayList<>()).add(r);
-            reservasDisponibles.remove(r);
-            return true;
+    public void crearReserva(int idCancha, String hora, LocalDate fecha, Integer capacidad) {
+        Cancha cancha = canchaRepository.findById(idCancha)
+                .orElseThrow(() -> new IllegalArgumentException("La cancha no existe."));
+        if (fecha == null || hora == null || hora.isBlank()) {
+            throw new IllegalArgumentException("Por favor ingrese todos los datos.");
         }
-    }
-    return false;
-}
-
-    public static boolean eliminarReservaDisponible(int idReserva) {
-        return reservasDisponibles.removeIf(r -> r.getIdReserva() == idReserva);
-    }
-
-    public static boolean cancelarReservaActiva(int idCliente) {
-    List<Reserva> lista = reservasActivas.remove(idCliente);
-    if (lista == null || lista.isEmpty()) return false;
-    reservasDisponibles.addAll(lista);
-    return true;
+        if (!HORARIOS.contains(hora)) {
+            throw new IllegalArgumentException("El horario no es válido.");
+        }
+        if (capacidad != null && capacidad <= 0) {
+            throw new IllegalArgumentException("La capacidad debe ser mayor que cero.");
+        }
+        if (reservaRepository.existsByCanchaIdAndFechaAndHora(idCancha, fecha, hora)) {
+            throw new IllegalArgumentException("Esa cancha ya tiene una reserva en ese día y hora.");
+        }
+        int cap = (capacidad == null) ? cancha.getCapacidad() : capacidad;
+        reservaRepository.save(new Reserva(cancha, fecha, hora, cap));
     }
 
-    public static List<Reserva> getReservasDeCliente(int idCliente) {
-    return reservasActivas.getOrDefault(idCliente, new ArrayList<>());
+    public boolean cambiarEstado(int idReserva, String estado) {
+        if (!Reserva.ESTADOS.contains(estado)) {
+            return false;
+        }
+        Reserva reserva = reservaRepository.findById(idReserva).orElse(null);
+        if (reserva == null || reserva.getCliente() != null) {
+            return false;
+        }
+        reserva.setEstado(estado);
+        reservaRepository.save(reserva);
+        return true;
+    }
+
+    public boolean cancelarReserva(int idReserva) {
+        Reserva reserva = reservaRepository.findById(idReserva).orElse(null);
+        if (reserva == null || reserva.getCliente() == null) {
+            return false;
+        }
+        reserva.setCliente(null);
+        reservaRepository.save(reserva);
+        return true;
+    }
+
+    @Transactional
+    public void cancelarReservaDeCliente(int idReserva, int idCliente) {
+        Reserva reserva = reservaRepository.findById(idReserva)
+                .orElseThrow(() -> new IllegalArgumentException("La reserva no existe."));
+        if (reserva.getCliente() == null || reserva.getCliente().getId() != idCliente) {
+            throw new IllegalArgumentException("Esa reserva no te pertenece.");
+        }
+        if (!reserva.isCancelable()) {
+            throw new IllegalArgumentException("Solo puedes cancelar una reserva hasta un día antes de su fecha.");
+        }
+        reserva.setCliente(null);
+        reservaRepository.save(reserva);
+    }
+
+    @Transactional
+    public boolean cancelarReservasDeCliente(int idCliente) {
+        List<Reserva> lista = reservaRepository.findByClienteId(idCliente);
+        if (lista.isEmpty()) {
+            return false;
+        }
+        for (Reserva reserva : lista) {
+            reserva.setCliente(null);
+        }
+        reservaRepository.saveAll(lista);
+        return true;
+    }
+
+    private List<Reserva> ordenar(List<Reserva> lista) {
+        return lista.stream()
+                .sorted(Comparator.comparing(Reserva::getFecha)
+                        .thenComparing(r -> HORARIOS.indexOf(r.getHora()))
+                        .thenComparing(r -> r.getCancha().getId()))
+                .collect(Collectors.toList());
     }
 }

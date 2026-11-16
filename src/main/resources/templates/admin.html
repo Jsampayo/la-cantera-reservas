@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos :: cabecera('Administración')}"></head>
+<body class="pagina">
+    <header class="barra">
+        <div class="contenedor">
+            <a class="marca" th:href="@{/}">⚽ La Cantera</a>
+        </div>
+    </header>
+
+    <main>
+        <section class="seccion">
+            <div class="contenedor">
+                <h1 class="titulo-pagina">Acceso administrador</h1>
+                <div th:replace="~{fragmentos :: mensajes}"></div>
+
+                <form class="formulario" th:action="@{/admin/login}" method="post">
+                    <div class="campo">
+                        <label for="id">ID de administrador</label>
+                        <input id="id" name="id" type="number" required>
+                    </div>
+                    <div class="campo">
+                        <label for="password">Contraseña</label>
+                        <input id="password" name="password" type="password" required>
+                    </div>
+                    <button class="boton boton-oscuro" type="submit">Iniciar sesión</button>
+                </form>
+
+                <p class="nota-pie"><a class="enlace" th:href="@{/}">Volver al inicio</a></p>
+            </div>
+        </section>
+    </main>
+
+    <footer th:replace="~{fragmentos :: pie}"></footer>
+</body>
+</html>

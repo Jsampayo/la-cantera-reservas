@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos :: cabecera('Mis reservas')}"></head>
+<body class="pagina">
+    <header th:replace="~{fragmentos :: barraCliente('mis-reservas', ${cliente.nombre})}"></header>
+
+    <main>
+        <section class="seccion">
+            <div class="contenedor">
+                <h1 class="titulo-pagina">Mis reservas</h1>
+                <p class="nota">Puedes cancelar una reserva hasta un día antes de su fecha. Al cancelarla, el turno queda libre para otros clientes.</p>
+                <div th:replace="~{fragmentos :: mensajes}"></div>
+
+                <p class="vacio" th:if="${#lists.isEmpty(misReservas)}">Todavía no tienes reservas.</p>
+                <div class="tabla-envoltura" th:unless="${#lists.isEmpty(misReservas)}">
+                    <table class="tabla">
+                        <thead>
+                            <tr>
+                                <th>Cancha</th>
+                                <th>Tipo</th>
+                                <th>Fecha</th>
+                                <th>Hora</th>
+                                <th>Capacidad</th>
+                                <th>Cancelar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="r : ${misReservas}">
+                                <td th:text="${r.cancha.nombre}"></td>
+                                <td th:text="${r.cancha.tipo}"></td>
+                                <td th:text="${#temporals.format(r.fecha, 'dd/MM/yyyy')}"></td>
+                                <td th:text="${r.hora}"></td>
+                                <td th:text="${r.capacidad}"></td>
+                                <td>
+                                    <form th:if="${r.cancelable}" th:action="@{/cliente/reservas/{id}/cancelar(id=${r.id})}" method="post">
+                                        <button class="boton boton-peligro boton-chico" type="submit">Cancelar</button>
+                                    </form>
+                                    <span class="texto-suave" th:unless="${r.cancelable}">Ya no se puede cancelar</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer th:replace="~{fragmentos :: pie}"></footer>
+</body>
+</html>

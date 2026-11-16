@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos :: cabecera('Registro')}"></head>
+<body class="pagina">
+    <header class="barra">
+        <div class="contenedor">
+            <a class="marca" th:href="@{/}">⚽ La Cantera</a>
+        </div>
+    </header>
+
+    <main>
+        <section class="seccion">
+            <div class="contenedor">
+                <h1 class="titulo-pagina">Crear cuenta</h1>
+                <p class="nota">Tu ID de usuario se genera automáticamente y no se repite. Para iniciar sesión usarás tu correo y tu contraseña. El teléfono solo se pide aquí, al registrarte.</p>
+                <div th:replace="~{fragmentos :: mensajes}"></div>
+
+                <form class="formulario" th:action="@{/cliente/registro}" method="post">
+                    <div class="campo">
+                        <label for="nombre">Nombre de usuario</label>
+                        <input id="nombre" name="nombre" type="text" maxlength="50" th:value="${nombre}" required>
+                    </div>
+                    <div class="campo">
+                        <label for="correo">Correo electrónico</label>
+                        <input id="correo" name="correo" type="email" maxlength="100" autocomplete="email" th:value="${correo}" required>
+                    </div>
+                    <div class="campo">
+                        <label for="telefono">Número de teléfono (solo números)</label>
+                        <input id="telefono" name="telefono" type="tel" inputmode="numeric" pattern="[0-9]{7,15}" maxlength="15"
+                               title="Solo números, entre 7 y 15 dígitos" autocomplete="tel" th:value="${telefono}" required>
+                    </div>
+                    <div class="campo">
+                        <label for="contrasena">Contraseña (mínimo 6 caracteres)</label>
+                        <input id="contrasena" name="contrasena" type="password" minlength="6" maxlength="64" autocomplete="new-password" required>
+                    </div>
+                    <div class="campo">
+                        <label for="confirmar">Confirmar contraseña</label>
+                        <input id="confirmar" name="confirmar" type="password" minlength="6" maxlength="64" autocomplete="new-password" required>
+                    </div>
+                    <button class="boton boton-oscuro" type="submit">Registrarme</button>
+                </form>
+
+                <p class="nota-pie"><a class="enlace" th:href="@{/cliente}">Volver al inicio de sesión</a></p>
+            </div>
+        </section>
+    </main>
+
+    <footer th:replace="~{fragmentos :: pie}"></footer>
+</body>
+</html>

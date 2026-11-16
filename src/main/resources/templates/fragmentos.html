@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="cabecera(titulo)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${titulo} + ' - La Cantera Reservas'">La Cantera Reservas</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600&family=Barlow+Condensed:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/estilos.css}">
+</head>
+<body>
+    <header class="barra" th:fragment="barraCliente(activa, nombre)">
+        <div class="contenedor barra-fila">
+            <a class="marca" th:href="@{/}">⚽ La Cantera</a>
+            <nav class="menu" aria-label="Menú del cliente">
+                <a th:href="@{/cliente/reservar}" th:attr="aria-current=${activa == 'reservar' ? 'page' : null}">Reservar</a>
+                <a th:href="@{/cliente/mis-reservas}" th:attr="aria-current=${activa == 'mis-reservas' ? 'page' : null}">Mis reservas</a>
+                <span class="menu-saludo" th:text="'Hola, ' + ${nombre}">Hola</span>
+                <a th:href="@{/cliente/salir}">Cerrar sesión</a>
+            </nav>
+        </div>
+    </header>
+
+    <header class="barra" th:fragment="barraAdmin(activa)">
+        <div class="contenedor barra-fila">
+            <a class="marca" th:href="@{/}">⚽ La Cantera</a>
+            <nav class="menu" aria-label="Menú del administrador">
+                <a th:href="@{/admin/activas}" th:attr="aria-current=${activa == 'activas' ? 'page' : null}">Reservas activas</a>
+                <a th:href="@{/admin/crear}" th:attr="aria-current=${activa == 'crear' ? 'page' : null}">Crear reserva</a>
+                <a th:href="@{/admin/modificar}" th:attr="aria-current=${activa == 'modificar' ? 'page' : null}">Modificar reserva</a>
+                <a th:href="@{/admin/asignar}" th:attr="aria-current=${activa == 'asignar' ? 'page' : null}">Asignar reserva</a>
+                <a th:href="@{/admin/usuarios}" th:attr="aria-current=${activa == 'usuarios' ? 'page' : null}">Usuarios</a>
+                <a th:href="@{/admin/salir}">Cerrar sesión</a>
+            </nav>
+        </div>
+    </header>
+
+    <footer class="pie" th:fragment="pie">
+        <div class="contenedor">⚽ La Cantera Reservas</div>
+    </footer>
+
+    <div th:fragment="mensajes">
+        <p class="aviso aviso-ok" th:if="${mensaje}" th:text="${mensaje}"></p>
+        <p class="aviso aviso-error" role="alert" th:if="${error}" th:text="${error}"></p>
+    </div>
+</body>
+</html>
