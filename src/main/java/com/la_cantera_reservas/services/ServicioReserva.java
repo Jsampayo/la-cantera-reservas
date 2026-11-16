@@ -26,7 +26,6 @@ public class ServicioReserva {
     public static final List<String> HORARIOS = List.of(
             "4 PM - 6 PM", "6 PM - 8 PM", "8 PM - 10 PM", "10 PM - 12 AM");
 
-    /** Cuántos días hacia adelante (contando hoy) mantiene turnos creados el generador. */
     public static final int DIAS_ADELANTE = 30;
 
     private final ReservaRepository reservaRepository;
@@ -44,22 +43,18 @@ public class ServicioReserva {
         this.clock = clock;
     }
 
-    /** Fecha de hoy en la zona horaria del negocio (Bogotá). */
+ 
     public LocalDate hoy() {
         return LocalDate.now(clock);
     }
 
-    /**
-     * Crea los turnos que falten desde hoy hasta DIAS_ADELANTE días más adelante.
-     * Es seguro llamarlo varias veces: no duplica turnos que ya existen.
-     */
+   
     @Transactional
     public void generarReservasDisponibles() {
         LocalDate hoy = hoy();
         LocalDate hasta = hoy.plusDays(DIAS_ADELANTE - 1L);
         List<Cancha> canchas = canchaRepository.findAll();
 
-        // Una sola consulta para saber qué turnos ya existen (en vez de una por turno).
         Set<String> existentes = new HashSet<>();
         for (Reserva r : reservaRepository.findByFechaBetween(hoy, hasta)) {
             existentes.add(clave(r.getCancha().getId(), r.getFecha(), r.getHora()));
