@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos :: cabecera('Crear reserva')}"></head>
+<body class="pagina">
+    <header th:replace="~{fragmentos :: barraAdmin('crear')}"></header>
+
+    <main>
+        <section class="seccion">
+            <div class="contenedor">
+                <h1 class="titulo-pagina">Crear reserva</h1>
+                <p class="nota">Agrega un turno nuevo. Quedará disponible para que los clientes lo reserven. Si no escribes la capacidad, se usa la de la cancha.</p>
+                <div th:replace="~{fragmentos :: mensajes}"></div>
+
+                <div class="panel">
+                    <form class="formulario-fila" th:action="@{/admin/crear}" method="post">
+                        <div class="campo">
+                            <label for="canchaId">Cancha</label>
+                            <select id="canchaId" name="canchaId" required>
+                                <option th:each="c : ${canchas}" th:value="${c.id}" th:text="${c.nombre} + ' (' + ${c.tipo} + ')'"></option>
+                            </select>
+                        </div>
+                        <div class="campo">
+                            <label for="hora">Hora</label>
+                            <select id="hora" name="hora" required>
+                                <option th:each="h : ${horarios}" th:value="${h}" th:text="${h}"></option>
+                            </select>
+                        </div>
+                        <div class="campo">
+                            <label for="fecha">Fecha</label>
+                            <input id="fecha" name="fecha" type="date" th:value="${fecha}" required>
+                        </div>
+                        <div class="campo">
+                            <label for="capacidad">Capacidad (opcional)</label>
+                            <input id="capacidad" name="capacidad" type="number" min="1" placeholder="Según la cancha">
+                        </div>
+                        <button class="boton boton-oscuro" type="submit">Crear reserva</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer th:replace="~{fragmentos :: pie}"></footer>
+</body>
+</html>

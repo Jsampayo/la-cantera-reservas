@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos :: cabecera('Clientes')}"></head>
+<body class="pagina">
+    <header class="barra">
+        <div class="contenedor">
+            <a class="marca" th:href="@{/}">⚽ La Cantera</a>
+        </div>
+    </header>
+
+    <main>
+        <section class="seccion">
+            <div class="contenedor">
+                <h1 class="titulo-pagina">Zona de clientes</h1>
+                <div th:replace="~{fragmentos :: mensajes}"></div>
+
+                <form class="formulario" th:action="@{/cliente/login}" method="post">
+                    <div class="campo">
+                        <label for="correo">Correo electrónico</label>
+                        <input id="correo" name="correo" type="email" autocomplete="email" required>
+                    </div>
+                    <div class="campo">
+                        <label for="contrasena">Contraseña</label>
+                        <input id="contrasena" name="contrasena" type="password" autocomplete="current-password" required>
+                    </div>
+                    <button class="boton boton-oscuro" type="submit">Ingresar</button>
+                </form>
+
+                <p class="nota-pie">¿Aún no tienes cuenta? <a class="enlace" th:href="@{/cliente/registro}">Regístrate</a></p>
+                <p class="nota-pie"><a class="enlace" th:href="@{/}">Volver al inicio</a></p>
+            </div>
+        </section>
+    </main>
+
+    <footer th:replace="~{fragmentos :: pie}"></footer>
+</body>
+</html>

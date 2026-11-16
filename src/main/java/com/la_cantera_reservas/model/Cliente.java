@@ -1,25 +1,76 @@
 package com.la_cantera_reservas.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "clientes")
 public class Cliente {
-    private int    id;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
     private String nombre;
-    private String password;
+    private String correo;
+    private String telefono;
+    /** Contraseña CIFRADA con BCrypt. Nunca se guarda ni se muestra en texto normal. */
+    private String contrasena;
 
-    public Cliente(String nombre, String password, int id) {
-        this.nombre   = nombre;
-        this.password = password;
-        this.id       = id;
+    public Cliente() {
     }
 
-    public Cliente(int id, String password) {
-        this.nombre   = null;
-        this.password = password;
-        this.id       = id;
+    public Cliente(String nombre, String correo, String telefono, String contrasena) {
+        this.nombre = nombre;
+        this.correo = correo;
+        this.telefono = telefono;
+        this.contrasena = contrasena;
     }
 
-    public String getNombre()   { return nombre;   }
-    public int    getId()       { return id;       }
-    public String getPassword() { return password; }
+    public Integer getId() {
+        return id;
+    }
 
-    public void setId(int id) { this.id = id; }
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getCorreo() {
+        return correo;
+    }
+
+    public void setCorreo(String correo) {
+        this.correo = correo;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+
+    public String getContrasena() {
+        return contrasena;
+    }
+
+    public void setContrasena(String contrasena) {
+        this.contrasena = contrasena;
+    }
+
+    /** Sirve para que el admin vea qué cuentas aún no tienen contraseña (sin mostrarla). */
+    public boolean isTieneContrasena() {
+        return contrasena != null && !contrasena.isBlank();
+    }
 }

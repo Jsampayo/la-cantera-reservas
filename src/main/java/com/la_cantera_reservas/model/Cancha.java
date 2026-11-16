@@ -1,34 +1,54 @@
 package com.la_cantera_reservas.model;
 
-import java.util.List;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
+@Entity
+@Table(name = "canchas")
 public class Cancha {
-    private final int    id;
-    private final String nombre;
-    private final String tipo;    
 
-    public Cancha(int id, String nombre, String tipo) {
-        this.id     = id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+    private String nombre;
+    private String tipo;
+    private Integer capacidad;
+
+    public Cancha() {
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
         this.nombre = nombre;
-        this.tipo   = tipo;
     }
 
-    public int    getId()     { return id;     }
-    public String getNombre() { return nombre; }
-    public String getTipo()   { return tipo;   }
-
-    @Override
-    public String toString() {
-        return nombre + " (" + tipo + ")";
+    public String getTipo() {
+        return tipo;
     }
 
-    private static final List<Cancha> CANCHAS = List.of(
-        new Cancha(1, "Cancha A", "Fútbol 5"),
-        new Cancha(2, "Cancha B", "Fútbol 5"),
-        new Cancha(3, "Cancha C", "Fútbol 7"),
-        new Cancha(4, "Cancha D", "Fútbol 7"),
-        new Cancha(5, "Cancha E", "Fútbol 11")
-    );
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
 
-    public static List<Cancha> getCanchas() { return CANCHAS; }
+    public Integer getCapacidad() {
+        return capacidad;
+    }
+
+    public void setCapacidad(Integer capacidad) {
+        this.capacidad = capacidad;
+    }
 }

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>La Cantera Reservas</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600&family=Barlow+Condensed:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/estilos.css}">
+</head>
+<body>
+    <header class="barra">
+        <div class="contenedor">
+            <a class="marca" th:href="@{/}">⚽ La Cantera</a>
+        </div>
+    </header>
+
+    <main>
+        <section class="portada">
+            <div class="trazo" aria-hidden="true">
+                <span class="linea-medio"></span>
+                <span class="circulo"></span>
+                <span class="punto"></span>
+            </div>
+            <div class="contenedor">
+                <div class="portada-texto">
+                    <h1 class="titulo-portada">Reserva tu cancha en La Cantera</h1>
+                    <p class="bajada">Elige el día, la cancha y el turno. Regístrate como cliente y reserva en pocos pasos.</p>
+                    <div class="acciones">
+                        <a class="boton boton-principal" th:href="@{/cliente}">Entrar como cliente</a>
+                        <a class="boton boton-secundario" th:href="@{/admin}">Entrar como administrador</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="seccion" aria-labelledby="titulo-canchas">
+            <div class="contenedor">
+                <h2 class="titulo-seccion" id="titulo-canchas">Nuestras canchas</h2>
+                <p class="nota">Cinco canchas en tres tamaños, para grupos pequeños y grandes.</p>
+                <ul class="canchas">
+                    <li>
+                        <span class="tipo">Fútbol 5</span>
+                        <span class="nombres">Cancha A y Cancha B</span>
+                        <span class="aforo">10 jugadores</span>
+                    </li>
+                    <li>
+                        <span class="tipo">Fútbol 7</span>
+                        <span class="nombres">Cancha C y Cancha D</span>
+                        <span class="aforo">14 jugadores</span>
+                    </li>
+                    <li>
+                        <span class="tipo">Fútbol 11</span>
+                        <span class="nombres">Cancha E</span>
+                        <span class="aforo">22 jugadores</span>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="seccion seccion-turnos" aria-labelledby="titulo-turnos">
+            <div class="contenedor">
+                <h2 class="titulo-seccion" id="titulo-turnos">Turnos del día</h2>
+                <p class="nota">Cada cancha tiene cuatro turnos de dos horas por día.</p>
+                <ul class="turnos">
+                    <li class="turno">4 PM – 6 PM</li>
+                    <li class="turno">6 PM – 8 PM</li>
+                    <li class="turno">8 PM – 10 PM</li>
+                    <li class="turno">10 PM – 12 AM</li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <footer class="pie">
+        <div class="contenedor">⚽ La Cantera Reservas</div>
+    </footer>
+</body>
+</html>

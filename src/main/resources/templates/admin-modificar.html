@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos :: cabecera('Modificar reserva')}"></head>
+<body class="pagina">
+    <header th:replace="~{fragmentos :: barraAdmin('modificar')}"></header>
+
+    <main>
+        <section class="seccion">
+            <div class="contenedor">
+                <h1 class="titulo-pagina">Modificar reserva</h1>
+                <p class="nota">Cambia el estado de un turno libre: Disponible (se puede reservar), En mantenimiento o No se puede ocupar. Los turnos que ya tiene un cliente se cancelan primero en Reservas activas.</p>
+                <div th:replace="~{fragmentos :: mensajes}"></div>
+
+                <div class="panel">
+                    <form class="formulario-fila" th:action="@{/admin/modificar}" method="get">
+                        <div class="campo">
+                            <label for="fecha">Día</label>
+                            <input id="fecha" name="fecha" type="date" th:value="${fecha}" required>
+                        </div>
+                        <button class="boton boton-oscuro" type="submit">Buscar</button>
+                    </form>
+                </div>
+
+                <h2 class="subtitulo" th:text="'Turnos libres el ' + ${#temporals.format(fecha, 'dd/MM/yyyy')}">Turnos libres</h2>
+                <p class="vacio" th:if="${#lists.isEmpty(reservas)}">No hay turnos libres para este día.</p>
+                <div class="tabla-envoltura" th:unless="${#lists.isEmpty(reservas)}">
+                    <table class="tabla">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Cancha</th>
+                                <th>Hora</th>
+                                <th>Estado actual</th>
+                                <th>Cambiar estado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="r : ${reservas}">
+                                <td th:text="${r.id}"></td>
+                                <td th:text="${r.cancha.nombre}"></td>
+                                <td th:text="${r.hora}"></td>
+                                <td>
+                                    <span class="estado" th:text="${r.estado}"
+                                          th:classappend="${r.estado == 'Disponible' ? 'estado-ok' : (r.estado == 'En mantenimiento' ? 'estado-mantenimiento' : 'estado-bloqueada')}"></span>
+                                </td>
+                                <td>
+                                    <form class="en-linea" th:action="@{/admin/reservas/{id}/estado(id=${r.id})}" method="post">
+                                        <input type="hidden" name="fecha" th:value="${fecha}">
+                                        <select class="mini-select" name="estado" aria-label="Nuevo estado">
+                                            <option th:each="e : ${estados}" th:value="${e}" th:text="${e}" th:selected="${e == r.estado}"></option>
+                                        </select>
+                                        <button class="boton boton-oscuro boton-chico" type="submit">Guardar</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer th:replace="~{fragmentos :: pie}"></footer>
+</body>
+</html>

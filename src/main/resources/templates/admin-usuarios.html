@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos :: cabecera('Usuarios')}"></head>
+<body class="pagina">
+    <header th:replace="~{fragmentos :: barraAdmin('usuarios')}"></header>
+
+    <main>
+        <section class="seccion">
+            <div class="contenedor">
+                <h1 class="titulo-pagina">Usuarios</h1>
+                <p class="nota">Al eliminar un usuario, sus reservas activas vuelven a quedar disponibles. Las contraseñas se guardan cifradas: nadie puede verlas, pero puedes asignar una nueva si el cliente la olvidó.</p>
+                <div th:replace="~{fragmentos :: mensajes}"></div>
+
+                <p class="vacio" th:if="${#lists.isEmpty(clientes)}">Todavía no hay usuarios registrados.</p>
+                <div class="tabla-envoltura" th:unless="${#lists.isEmpty(clientes)}">
+                    <table class="tabla">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre de usuario</th>
+                                <th>Correo</th>
+                                <th>Teléfono</th>
+                                <th>Contraseña</th>
+                                <th>Eliminar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="c : ${clientes}">
+                                <td th:text="${c.id}"></td>
+                                <td th:text="${c.nombre}"></td>
+                                <td th:text="${c.correo}"></td>
+                                <td th:text="${c.telefono}"></td>
+                                <td>
+                                    <form th:action="@{/admin/usuarios/{id}/contrasena(id=${c.id})}" method="post">
+                                        <input class="mini-input" type="password" name="nueva" minlength="6" maxlength="64"
+                                               autocomplete="new-password" required
+                                               th:placeholder="${c.tieneContrasena} ? 'Nueva contraseña' : 'Sin contraseña: asigna una'">
+                                        <button class="boton boton-chico" type="submit">Guardar</button>
+                                    </form>
+                                </td>
+                                <td>
+                                    <form th:action="@{/admin/usuarios/{id}/eliminar(id=${c.id})}" method="post">
+                                        <button class="boton boton-peligro boton-chico" type="submit">Eliminar</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer th:replace="~{fragmentos :: pie}"></footer>
+</body>
+</html>
