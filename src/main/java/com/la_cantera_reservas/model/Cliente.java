@@ -16,7 +16,6 @@ public class Cliente {
     private String nombre;
     private String correo;
     private String telefono;
-    /** Contraseña CIFRADA con BCrypt. Nunca se guarda ni se muestra en texto normal. */
     private String contrasena;
 
     public Cliente() {
@@ -69,7 +68,6 @@ public class Cliente {
         this.contrasena = contrasena;
     }
 
-    /** Sirve para que el admin vea qué cuentas aún no tienen contraseña (sin mostrarla). */
     public boolean isTieneContrasena() {
         return contrasena != null && !contrasena.isBlank();
     }

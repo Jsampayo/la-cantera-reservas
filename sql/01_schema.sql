@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS clientes (
     nombre    VARCHAR(50)  NOT NULL,
     correo    VARCHAR(100) NOT NULL,
     telefono  VARCHAR(15)  NOT NULL,
-    contrasena VARCHAR(100) NOT NULL,   -- hash BCrypt (60 caracteres), nunca la contraseña real
+    contrasena VARCHAR(100) NOT NULL,  
     PRIMARY KEY (id),
     UNIQUE (correo)
 );
